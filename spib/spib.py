@@ -223,13 +223,16 @@ class SPIB(nn.Module):
         state_population = labels.sum(dim=0).cpu()
 
         # randomly pick up one sample from each initlal state as the initial guess of representative-inputs
-        representative_inputs=[]
+        representative_inputs = []
 
         for i in range(state_population.shape[-1]):
-            if state_population[i]>0:
-                index = np.random.randint(0,state_population[i])
-                representative_inputs+=[inputs[labels[:,i].bool()][index].reshape(1,-1)]
-                # print(index)
+            if state_population[i] > 0:
+                index = np.random.randint(0, state_population[i])
+                representative_inputs += [inputs[labels[:, i].bool()][index].reshape(1, -1)]
+            else:
+                # randomly select one sample as the representative input
+                index = np.random.randint(0, inputs.shape[0])
+                representative_inputs += [inputs[index].reshape(1, -1)]
 
         representative_inputs = torch.cat(representative_inputs, dim=0)
 
@@ -449,7 +452,7 @@ class SPIB(nn.Module):
                     # check whether only one state is found
                     if torch.sum(state_population>0)<2:
                         print("Only one metastable state is found!")
-                        break
+                        return True
 
                     # Stop only if update_times >= min_refinements
                     if self.UpdateLabel and update_times < refinements:

@@ -10,7 +10,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['torch==1.12.1']
+requirements = ['torch']
 
 test_requirements = [ ]
 
