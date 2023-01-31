@@ -34,8 +34,7 @@ import torch.nn.functional as F
 from spib.spib import SPIB
 from spib.utils import data_init
 
-# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-device = torch.device("cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 default_device = torch.device("cpu")
 
 def test_model():
@@ -85,7 +84,7 @@ def test_model():
     else:
         batch_size = 2048
 
-    # Threshold in terms of the change of the predicted state population for measuring the convergence of the training
+    # Threshold in terms of the relative change of the predicted state population for measuring the convergence of the training
     if '-threshold' in sys.argv:
         threshold = float(sys.argv[sys.argv.index('-threshold') + 1])
     else:
