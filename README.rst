@@ -23,7 +23,7 @@ State Predictive Information Bottleneck (SPIB)
 
 
 What is it?
---------
+-----------
 
 SPIB is a deep learning-based framework that learns the reaction coordinates from high dimensional molecular simulation trajectories. Please read and cite this manuscript when using SPIB: https://aip.scitation.org/doi/abs/10.1063/5.0038198. Here is an implementation of SPIB in Pytorch.
 
