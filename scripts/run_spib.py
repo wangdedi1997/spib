@@ -30,6 +30,7 @@ import torch
 import os
 import sys
 import torch.nn.functional as F
+import random
 
 from spib.spib import SPIB
 from spib.utils import data_init
@@ -159,6 +160,7 @@ def test_model():
         seed = int(sys.argv[sys.argv.index('-seed') + 1])
         np.random.seed(seed)
         torch.manual_seed(seed)
+        random.seed(seed)
     else:
         seed = 0
 

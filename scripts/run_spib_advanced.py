@@ -1,9 +1,9 @@
 """
 Sample script for `spib` package.
 
-Here, a configuration file in INI format is supported, which allows a more flexible control of the training process. A sample configuration file is shown in the ```examples``` subdirectory. Two advanced features are included: 
+Here, a configuration file in INI format is supported, which allows a more flexible control of the training process. A sample configuration file is shown in the ```examples``` subdirectory. Two advanced features are included:
 * It supports simple grid search to tune the hyper-parameters;
-* It also allows multiple trajectories with different weights as the input data; 
+* It also allows multiple trajectories with different weights as the input data;
 
 Sample command:
     python run_spib_advanced.py -config examples/sample_config.ini
