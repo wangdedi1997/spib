@@ -36,7 +36,7 @@ from spib.utils import data_init
 #
 # else:
 #     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-device = torch.device("cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 default_device = torch.device("cpu")
 
 def test_model_advanced():
