@@ -9,7 +9,7 @@ Welcome to spib's documentation!
 
    readme
    installation
-   usage
+   examples
    modules
    contributing
    authors
