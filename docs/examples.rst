@@ -10,5 +10,4 @@ Notebooks containing some longer example systems.
    :maxdepth: 2
    :caption: Contents:
 
-    ../examples/tutorial1_model_potential.ipynb
-    ../examples/tutorial3_trpcage.ipynb
+    examples_link
