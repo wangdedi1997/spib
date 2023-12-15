@@ -25,40 +25,54 @@ class DataNormalize(nn.Module):
         return normalized_x
 
 
-def prepare_data(data_list, label_list, weight_list, output_dim, lagtime=1, subsampling_timestep=1, train_indice=None,
-                 test_indice=None, lengths=None, device=torch.device("cpu")):
-    if train_indice is None or test_indice is None:
-        if lengths is None:
-            lengths = [0.9, 0.1]
-        # random split the dataset into train and test sets
-        full_dataset = TimeLaggedDataset(data_list, label_list, weight_list, lagtime=lagtime,
-                                         subsampling_timestep=subsampling_timestep, output_dim=output_dim, device=device)
-        train_dataset, test_dataset = torch.utils.data.random_split(full_dataset, lengths)
+def prepare_data(data_list, label_list, weight_list, output_dim, train_indices,
+                 test_indices, lagtime=1, subsampling_timestep=1, device=torch.device("cpu")):
+    r"""This can be used to prepare the data for spib training and validation.
+        Parameters
+        ----------
+        data_list : List of trajectory data
+            The data which is wrapped into a dataset
+        label_list : List of corresponding labels
+            Corresponding label data. Must be of same length.
+        weight_list: List of corresponding weights, optional, default=None
+            Corresponding weight data. Must be of same length.
+        output_dim: int
+            The total number of states in label_list
+        train_indices: a sequence of indices,
+            Indices in the whole set selected for training set
+        test_indices: a sequence of indices,
+            Indices in the whole set selected for test set
+        lagtime: int, default=1
+            The lag time used to produce timeshifted blocks.
+        subsampling_timestep: int, default=1
+            The step size for subsampling
+        device: torch device, default=torch.device("cpu")
+            The device on which the torch modules are executed.
+    """
 
+    train_data = [data_list[i] for i in train_indices]
+    test_data = [data_list[i] for i in test_indices]
+
+    train_labels = [label_list[i] for i in train_indices]
+    test_labels = [label_list[i] for i in test_indices]
+
+    if weight_list is None:
+        train_dataset = TimeLaggedDataset(train_data, train_labels, None, lagtime=lagtime,
+                                          subsampling_timestep=subsampling_timestep,
+                                          output_dim=output_dim, device=device)
+        test_dataset = TimeLaggedDataset(test_data, test_labels, None, lagtime=lagtime,
+                                         subsampling_timestep=subsampling_timestep,
+                                         output_dim=output_dim, device=device)
     else:
-        train_data = [data_list[i] for i in train_indice]
-        test_data = [data_list[i] for i in test_indice]
+        train_weights = [weight_list[i] for i in train_indices]
+        test_weights = [weight_list[i] for i in test_indices]
 
-        train_labels = [label_list[i] for i in train_indice]
-        test_labels = [label_list[i] for i in test_indice]
-
-        if weight_list is None:
-            train_dataset = TimeLaggedDataset(train_data, train_labels, None, lagtime=lagtime,
-                                              subsampling_timestep=subsampling_timestep,
-                                              output_dim=output_dim, device=device)
-            test_dataset = TimeLaggedDataset(test_data, test_labels, None, lagtime=lagtime,
-                                             subsampling_timestep=subsampling_timestep,
-                                             output_dim=output_dim, device=device)
-        else:
-            train_weights = [weight_list[i] for i in train_indice]
-            test_weights = [weight_list[i] for i in test_indice]
-
-            train_dataset = TimeLaggedDataset(train_data, train_labels, train_weights, lagtime=lagtime,
-                                              subsampling_timestep=subsampling_timestep,
-                                              output_dim=output_dim, device=device)
-            test_dataset = TimeLaggedDataset(test_data, test_labels, test_weights, lagtime=lagtime,
-                                             subsampling_timestep=subsampling_timestep,
-                                             output_dim=output_dim, device=device)
+        train_dataset = TimeLaggedDataset(train_data, train_labels, train_weights, lagtime=lagtime,
+                                          subsampling_timestep=subsampling_timestep,
+                                          output_dim=output_dim, device=device)
+        test_dataset = TimeLaggedDataset(test_data, test_labels, test_weights, lagtime=lagtime,
+                                         subsampling_timestep=subsampling_timestep,
+                                         output_dim=output_dim, device=device)
 
     return train_dataset, test_dataset
 
@@ -72,9 +86,11 @@ class TimeLaggedDataset(torch.utils.data.Dataset):
     label_list : List of corresponding labels
         Corresponding label data. Must be of same length.
     weight_list: List of corresponding weights, optional, default=None
-        Corresponding label data. Must be of same length.
+        Corresponding weight data. Must be of same length.
     lagtime: int, default=1
         The lag time used to produce timeshifted blocks.
+    subsampling_timestep: int, default=1
+        The step size for subsampling
     device: torch device, default=torch.device("cpu")
         The device on which the torch modules are executed.
     """

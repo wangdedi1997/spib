@@ -1,5 +1,5 @@
 """
-SPIB: A deep learning-based framework for dimension reduction and Markov model construction of MD trajectories.
+SPIB: A deep learning-based framework for dimension reduction and MSM of MD trajectories.
 Code maintained by Dedi.
 
 Read and cite the following when using this method:
@@ -369,7 +369,7 @@ class SPIB(nn.Module):
             after which this iteration of training finishes.
         refinements: int, default=15
             Number of refinements.
-        mask_threshold: float, default=0.001
+        mask_threshold: float, default=0
             Minimum probability for checking convergence.
         log_interval: int, optional, default=10000
             Number of steps to save the model.
