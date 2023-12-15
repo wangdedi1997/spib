@@ -27,6 +27,36 @@ What is it?
 
 SPIB is a deep learning-based framework for dimension reduction and Markov model construction of MD trajectories. Please read and cite this manuscript when using SPIB: https://aip.scitation.org/doi/abs/10.1063/5.0038198. Here is an implementation of SPIB in Pytorch.
 
+Installation
+------------
+
+Stable release:
+^^^^^^^^^^^^
+
+The preferred installation mechanism for :code:`spib` is with :code:`pip`:
+
+.. code-block:: console
+
+    $ pip install spib
+
+From sources:
+^^^^^^^^^^^^
+
+The sources for spib can be downloaded from the `Github repo`_.
+
+You can clone the public repository:
+
+.. code-block:: console
+
+    $ git clone git://github.com/wangdedi1997/spib
+
+Once you have a copy of the source, you can install it with:
+
+.. code-block:: console
+
+    $ python setup.py install
+
+.. _Github repo: https://github.com/wangdedi1997/spib
 
 Credits
 -------
