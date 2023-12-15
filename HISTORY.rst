@@ -2,7 +2,7 @@
 History
 =======
 
-1.0.0 (2023-12-14)
+1.1.0 (2023-12-14)
 ------------------
 
 * Complete rewrite of everything allowing more robust dimension reduction and Markov model construction of MD trajectories.
